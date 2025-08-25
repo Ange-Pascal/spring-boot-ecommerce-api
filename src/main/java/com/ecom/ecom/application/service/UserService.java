@@ -63,6 +63,7 @@ public class UserService {
             address.setZipcode(userRequest.getAddress().getZipcode());
             address.setCountry(userRequest.getAddress().getCountry());
             address.setStreet(userRequest.getAddress().getStreet());
+            address.setState(userRequest.getAddress().getState());
             user.setAddress(address);
 
         }
@@ -84,6 +85,9 @@ public class UserService {
             addressDTO.setStreet(user.getAddress().getStreet());
             addressDTO.setCity(user.getAddress().getCity());
             addressDTO.setState(user.getAddress().getState());
+            addressDTO.setZipcode(user.getAddress().getZipcode());
+            addressDTO.setCountry(user.getAddress().getCountry());
+            response.setAddress(addressDTO);
         }
 
         return response;
