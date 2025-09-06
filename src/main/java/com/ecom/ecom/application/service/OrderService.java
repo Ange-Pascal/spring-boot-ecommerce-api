@@ -1,5 +1,6 @@
 package com.ecom.ecom.application.service;
 
+import com.ecom.ecom.application.dto.OrderItemDTO;
 import com.ecom.ecom.application.dto.OrderResponse;
 import com.ecom.ecom.application.model.*;
 import com.ecom.ecom.application.repository.OrderRepository;
@@ -59,5 +60,24 @@ public class OrderService {
 
         //Clear the cart
         cartService.clearCart(userId);
+
+        return  Optional.of(mapToOrderResponse(savedOrder));
+    }
+
+    private OrderResponse mapToOrderResponse(Order order) {
+        return  new OrderResponse(
+                order.getId(),
+                order.getTotalAmount(),
+                order.getStatus(),
+                order.getItems().stream()
+                        .map(orderItem -> new OrderItemDTO(
+                                orderItem.getId(),
+                                orderItem.getProduct().getId(),
+                                orderItem.getQuantity(),
+                                orderItem.getPrice(),
+                                orderItem.getPrice().multiply(new BigDecimal(orderItem.getQuantity()))
+                                )).toList(),
+                order.getCreatedAt()
+        );
     }
 }
